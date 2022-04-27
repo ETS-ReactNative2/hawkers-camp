@@ -60,6 +60,9 @@ There are several types of end users of the application. They are broadly divide
   </tr>
 </table>
 
+## Deployed URL
+[deployed] https://vhelp-rest.herokuapp.com/
+
 ## Future Work
 
 The project is still work in progress and a few fetures (and bugs) needs to be added (priority wise):
