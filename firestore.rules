@@ -1,0 +1,152 @@
+rules_version = '2';
+service cloud.firestore {
+  //TESTING RULES, *****************
+  // 1) Install required dependencies by npm install 
+  // 2) Run emulators for firestore: firebase emulators:start --only firestore
+  // 3) cd to /functions folder and run `npm test`
+  //*********
+
+  //Matches only /hawkers/{documentId} and not any deeper subcollections/documents, those matches has to be written explicitly
+  match /databases/{database}/documents {
+  //checks if a given number is a postive number and is a number object
+
+    function isString(stringToTest){
+      return (stringToTest is string);
+    }
+    
+    function isValidPhoneNumber(num){
+       return string(num).matches('^(6|8|9)[0-9]{7}$') || num == 0;
+    }
+
+    function hasValidFields(fields){
+      return fields.hasOnly([
+     'name',
+    'postal',
+    'street',
+    'description',
+    'description_detail',
+    'url',
+    'image2',
+    'image3',
+    'image4',
+    'image5',
+    'image6',
+    'latitude',
+    'longitude',
+    'unit',
+    'delivery',
+    'cuisine',
+    'categories',
+    'region',
+    'regions',
+    'price',
+    'contact',
+    'call',
+    'whatsapp',
+    'sms',
+    'inperson',
+    'lastmodified',
+    'opening',
+    'delivery_option',
+    'pickup_option',
+    'website',
+    'promo',
+    'condition',
+    'delivery_detail',
+    'menu',
+    'docid',
+    'wechatid',
+    'location',
+    'menu_combined',
+    'tagsValue',
+    'claps',
+    'takesg',
+    'custom',
+    'minimum_order',
+    'free_delivery'
+     ]) && fields.size() == 44
+    }
+    
+    // TODO: Need structure
+    match /deliveries/{document=**} {
+      allow read: if true;
+      allow delete: if false;
+      allow update: if true;
+      allow create: if true;
+    }
+
+    // TODO: Need structure
+    match /cuisine/{document=**} {
+      allow read: if true;
+      allow delete: if false;
+      allow update: if true;
+      allow create: if true;
+    }
+
+    match /tags/{document=**} {
+      allow read: if true;
+      allow delete: if false;
+      allow update: if true;
+      allow create: if true;
+    }
+    
+    match /etc/{document=**} {
+      allow read: if true;
+      allow delete: if false;
+      allow update: if true;
+      allow create: if true;
+    }
+    
+    match /delivery_price/{document=**} {
+      allow read: if true;
+      allow delete: if false;
+      allow update: if true;
+      allow create: if true;
+    }
+    
+    match /development/{document=**} {
+      allow read: if true;
+      allow delete: if false;
+      allow update: if true;
+      allow create: if true;
+    }
+    
+    match /pages/{document} {
+      allow read: if true;
+      allow delete: if false;
+      allow update: if true;
+      allow create: if true;
+    }
+    
+    match /pages/{document}/orders/{orderId}{
+      allow create: if true;
+      allow read, write, update, delete: if request.auth != null
+    }
+    
+    match /pages/{document}/users/{userId}{
+      allow read, create, update: if true;
+      allow delete: if false;
+    }
+    
+    match /groupbuy/{document=**} {
+      allow read: if true;
+      allow delete: if false;
+      allow update: if true;
+      allow create: if true;
+    }
+
+    match /hawkers/{document} {
+      //Reads are public, but may incur download costs if malicious users continuously reads them.
+      allow read;
+      //So are writes, all they need to know is the correct structure to allow these writes, but we validation, we can prevent less garbage data.
+      allow create: if isString(request.resource.data.name) // Required Field 
+      && isValidPhoneNumber(request.resource.data.contact) // Required Field
+      // && isPositiveNumber(request.resource.data.postal) // Required Field
+      && hasValidFields(request.resource.data.keys()) //This prevents any writes without any of these fields and prevents arbitrary fields from being written.
+      //Allow update, TODO: needs validation
+      allow update: if true
+      //Disallow delete  
+      allow delete: if false;
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "name": "functions",
+  "description": "Cloud Functions for Firebase",
+  "scripts": {
+    "lint": "eslint .",
+    "serve": "firebase emulators:start --only functions",
+    "shell": "firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log",
+    "test": "mocha --timeout 5000"
+  },
+  "engines": {
+    "node": "8"
+  },
+  "dependencies": {
+    "bitly": "7.1.0",
+    "firebase-admin": "8.12.1",
+    "firebase-functions": "3.6.2",
+    "node-fetch": "2.6.0",
+    "request": "2.88.2",
+    "telegraf": "3.38.0",
+    "twilio": "3.45.0"
+  },
+  "devDependencies": {
+    "@firebase/testing": "0.20.0",
+    "eslint": "6.8.0",
+    "eslint-plugin-promise": "4.2.1",
+    "firebase-functions-test": "0.2.1",
+    "mocha": "7.2.0"
+  },
+  "private": true
+}
