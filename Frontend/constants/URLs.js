@@ -1,1 +1,1 @@
-export const REST_API_URL = `https://vhelp-rest.herokuapp.com`;
+export const REST_API_URL = `https://sheltered-ridge-50016.herokuapp.com/`;
