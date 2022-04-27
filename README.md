@@ -61,7 +61,7 @@ There are several types of end users of the application. They are broadly divide
 </table>
 
 ## Deployed URL
-[deployed] https://vhelp-rest.herokuapp.com/
+[deployed] https://limitless-harbor-78103.herokuapp.com/
 
 ## Future Work
 
